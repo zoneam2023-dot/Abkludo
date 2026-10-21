@@ -43,11 +43,21 @@
       animation: spinGoti 2s infinite linear;
     }
     @keyframes pulseRing {
-      0% { transform: scale(0.5); opacity: 0.8; border-width: 4px; }
-      100% { transform: scale(3.5); opacity: 0; border-width: 0px; }
+      0% { transform: scale(0.9); opacity: 0.9; }
+      50% { transform: scale(1.28); opacity: 0.3; }
+      100% { transform: scale(0.9); opacity: 0.9; }
     }
     .pulse-ring-anim {
       animation: pulseRing 1.5s infinite ease-in-out;
+    }
+    @keyframes floatUp {
+      0% { transform: translateY(0) scale(0.6); opacity: 0; }
+      15% { transform: translateY(-30px) scale(1.2); opacity: 1; }
+      80% { transform: translateY(-220px) scale(1); opacity: 0.9; }
+      100% { transform: translateY(-300px) scale(0.8); opacity: 0; }
+    }
+    .floating-emoji {
+      animation: floatUp 3s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
     }
   </style>
 </head>
@@ -62,7 +72,7 @@
       <div>
         <div class="flex items-center gap-1.5">
           <span class="text-base sm:text-lg font-black tracking-wide text-transparent bg-clip-text bg-gradient-to-r from-amber-300 via-yellow-400 to-amber-500">
-            ABKshanu
+            ABK shanu
           </span>
           <span class="text-[10px] font-black uppercase tracking-wider px-1.5 py-0.5 rounded-full bg-amber-400/20 text-amber-300 border border-amber-400/30">
             LUDO
@@ -122,11 +132,13 @@
       </p>
     </div>
 
+    <!-- Mode Cards -->
     <div class="w-full mb-6">
       <label id="lblStepMode" class="text-xs font-black uppercase text-amber-400/90 tracking-wider mb-2.5 block">
         1. खेल का मोड चुनें (Game Mode)
       </label>
       <div class="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
+        <!-- Bot Mode -->
         <button id="cardModeBot" onclick="selectGameMode('bot')" class="p-3.5 rounded-2xl border-2 border-amber-400 bg-amber-400/10 text-left transition-all cursor-pointer shadow-lg shadow-amber-500/10">
           <div class="flex items-center justify-between mb-1.5">
             <span class="text-2xl">🤖</span>
@@ -137,6 +149,7 @@
           <span class="text-[10px] font-bold text-amber-300 mt-2 block">✓ बिना इंटरनेट, तुरंत खेलें</span>
         </button>
 
+        <!-- Pass & Play -->
         <button id="cardModeLocal" onclick="selectGameMode('local')" class="p-3.5 rounded-2xl border-2 border-slate-800 bg-slate-900/60 hover:bg-slate-900/90 text-left transition-all cursor-pointer">
           <div class="flex items-center justify-between mb-1.5">
             <span class="text-2xl">👥</span>
@@ -147,6 +160,7 @@
           <span class="text-[10px] font-bold text-slate-500 mt-2 block">✓ ऑफलाइन दोस्तों के साथ</span>
         </button>
 
+        <!-- Online Token Room -->
         <button id="cardModeOnline" onclick="selectGameMode('online')" class="p-3.5 rounded-2xl border-2 border-slate-800 bg-slate-900/60 hover:bg-slate-900/90 text-left transition-all cursor-pointer">
           <div class="flex items-center justify-between mb-1.5">
             <span class="text-2xl">🌐</span>
@@ -159,6 +173,7 @@
       </div>
     </div>
 
+    <!-- Online Token Box -->
     <div id="boxOnlineTokenSection" class="hidden w-full bg-slate-900/90 border border-amber-500/30 rounded-2xl p-4 mb-6 shadow-xl">
       <div class="flex border-b border-slate-800 mb-4">
         <button id="tabOnlineCreate" onclick="switchOnlineTab('create')" class="flex-1 pb-2 font-black text-xs sm:text-sm border-b-2 border-amber-400 text-amber-400 cursor-pointer">नया रूम बनाएं (Create)</button>
@@ -179,6 +194,7 @@
       </div>
     </div>
 
+    <!-- Player Count -->
     <div class="w-full mb-6">
       <label id="lblStepCount" class="text-xs font-black uppercase text-amber-400/90 tracking-wider mb-2.5 block">
         2. खिलाड़ियों की संख्या चुनें (Player Count)
@@ -193,6 +209,7 @@
       </div>
     </div>
 
+    <!-- Player Name & Color -->
     <div class="w-full mb-6">
       <label id="lblStepProfile" class="text-xs font-black uppercase text-amber-400/90 tracking-wider mb-2.5 block">
         3. आपका नाम और रंग (Name & Color)
@@ -220,6 +237,7 @@
       </div>
     </div>
 
+    <!-- Start Button -->
     <button onclick="startLudoGame()" class="w-full py-4 rounded-2xl bg-gradient-to-r from-amber-400 via-amber-500 to-yellow-500 text-slate-950 font-black text-base shadow-xl shadow-amber-500/25 hover:brightness-105 active:scale-98 transition-all flex items-center justify-center gap-2 cursor-pointer">
       <span class="text-xl">🎲</span>
       <span id="lblBtnStartPlay">लूडो खेल शुरू करें (Play Game)</span>
@@ -228,6 +246,7 @@
 
   <!-- VIEW 2: GAMEPLAY DASHBOARD -->
   <main id="viewDashboard" class="hidden flex-1 flex flex-col items-center justify-between p-2 sm:p-4 max-w-xl mx-auto w-full">
+    <!-- Top Bar -->
     <div class="w-full bg-slate-900/90 border border-slate-800 rounded-2xl p-2.5 mb-2 flex items-center justify-between shadow-lg">
       <div class="flex items-center gap-2">
         <button onclick="minimizeGameToHome()" class="px-2.5 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-xs font-bold text-slate-300 flex items-center gap-1 cursor-pointer">
@@ -246,12 +265,14 @@
           <svg id="dashCheckIcon" class="w-3.5 h-3.5 text-emerald-400 hidden" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
         </div>
 
-        <button onclick="toggleEmojiPanel()" class="relative p-2 rounded-xl bg-slate-800 hover:bg-slate-700 border border-slate-700 text-amber-400 transition-all cursor-pointer animate-pulse">
-          <span class="text-xl select-none">😀</span>
+        <button onclick="toggleChatDrawer()" class="relative p-2 rounded-xl bg-slate-800 hover:bg-slate-700 border border-slate-700 text-amber-400 transition-all cursor-pointer">
+          <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+          <span id="chatUnreadDot" class="w-2 h-2 rounded-full bg-red-500 absolute top-1 right-1 hidden animate-pulse"></span>
         </button>
       </div>
     </div>
 
+    <!-- Online Host/Guest Status Bar -->
     <div id="onlineWaitingNoticeHost" class="hidden w-full bg-emerald-950/60 border border-emerald-500/50 rounded-xl p-2.5 mb-2 flex items-center justify-between text-xs text-emerald-300">
       <div class="flex items-center gap-2">
         <span>👑</span> <span>आप होस्ट हैं। जब सभी खिलाड़ी जुड़ जाएं तो गेम शुरू करें:</span>
@@ -267,19 +288,25 @@
       <span class="text-[10px] font-mono bg-amber-400/20 px-2 py-0.5 rounded text-amber-200">टोकन: #<span id="dashWaitingToken"></span></span>
     </div>
 
+    <!-- Status / Move Notice -->
     <div id="dashNoticeBanner" class="hidden w-full bg-amber-500/20 border border-amber-400/80 rounded-xl px-4 py-2 mb-2 flex items-center justify-center gap-2 text-xs font-black text-amber-300 animate-pulse shadow-lg">
       <span>⚡</span> <span id="dashNoticeText">बोनस चाल!</span>
     </div>
 
+    <!-- 15x15 LUDO BOARD -->
     <div class="w-full flex justify-center items-center my-auto">
       <div class="relative w-full max-w-[560px] aspect-square bg-amber-50 p-2 sm:p-3 rounded-3xl shadow-2xl border-4 border-amber-950/70 select-none">
         <div id="boardGrid15x15" class="relative w-full h-full bg-white border border-slate-400 shadow-inner rounded-xl overflow-hidden" style="display: grid; grid-template-columns: repeat(15, minmax(0, 1fr)); grid-template-rows: repeat(15, minmax(0, 1fr));">
+          <!-- Dynamically populated -->
         </div>
+        <!-- Overlaid Tokens Layer -->
         <div id="tokensLayer" class="absolute inset-0 pointer-events-none p-2 sm:p-3"></div>
       </div>
     </div>
 
+    <!-- Bottom Controls & Dice Bar -->
     <div class="w-full bg-slate-900/95 border border-slate-800 rounded-2xl p-3 mt-2 shadow-2xl flex items-center justify-between gap-3 z-30">
+      <!-- Turn Info -->
       <div class="flex items-center gap-2.5 overflow-hidden">
         <div id="dotActiveTurn" class="w-4 h-4 rounded-full shadow-md shrink-0 border border-white/50 bg-red-600"></div>
         <div>
@@ -293,52 +320,76 @@
         </div>
       </div>
 
+      <!-- Owner Shanu Badge -->
       <div class="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-gradient-to-r from-amber-500/15 via-yellow-500/15 to-amber-500/15 border border-amber-500/30 text-amber-300 text-xs font-black shadow-sm shrink-0">
         <span class="text-sm">👑</span>
-        <span class="tracking-wide">Dev: Shanu</span>
+        <span class="tracking-wide">Owner: shanu</span>
         <svg class="w-3.5 h-3.5 text-amber-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></svg>
       </div>
 
+      <!-- 3D Dice Button -->
       <div class="flex items-center">
         <button id="btnRollDice" onclick="handleRollClick()" class="relative w-14 h-14 sm:w-16 sm:h-16 rounded-2xl bg-gradient-to-b from-white via-slate-100 to-slate-200 border-4 border-red-600 shadow-2xl active:scale-95 transition-all flex items-center justify-center cursor-pointer select-none">
-          <div id="diceFaceDisplay" class="w-full h-full flex items-center justify-center p-1"></div>
+          <div id="diceFaceDisplay" class="w-full h-full flex items-center justify-center p-1">
+            <!-- Dice Pips rendered dynamically -->
+          </div>
         </button>
       </div>
     </div>
   </main>
 
+  <!-- Slide-out Live Chat Drawer -->
   <div id="chatDrawer" class="hidden fixed inset-y-0 right-0 w-80 max-w-[90vw] bg-slate-900/98 border-l border-slate-800 z-50 flex flex-col shadow-2xl backdrop-blur-md">
     <div class="p-3.5 border-b border-slate-800 flex items-center justify-between">
       <div class="flex items-center gap-2">
-        <span class="text-lg">🎉</span>
-        <h3 id="lblChatTitle" class="font-black text-sm text-white">इमोजी रिएक्शन (Emoji Reactions)</h3>
+        <span class="text-lg">💬</span>
+        <h3 id="lblChatTitle" class="font-black text-sm text-white">चैट और एनिमेटेड इमोजी</h3>
       </div>
-      <button onclick="toggleEmojiPanel()" class="p-1 rounded-lg text-slate-400 hover:text-white">✕</button>
+      <button onclick="toggleChatDrawer()" class="p-1 rounded-lg text-slate-400 hover:text-white">✕</button>
     </div>
 
-    <div class="p-4 bg-slate-950/60 flex-1 overflow-y-auto">
-      <div id="lblChatEmojisPrompt" class="text-[10px] font-black text-slate-400 uppercase tracking-wider mb-3">
-        इमोजी दबाएं (पूरे स्क्रीन पर धमाकेदार एनिमेशन + साउंड):
+    <!-- 12 Animated Emoji Reactions Grid -->
+    <div class="p-3 border-b border-slate-800 bg-slate-950/60">
+      <div id="lblChatEmojisPrompt" class="text-[10px] font-black text-slate-400 uppercase tracking-wider mb-2">
+        इमोजी दबाएं (फुल स्क्रीन एनिमेशन):
       </div>
-      <div class="grid grid-cols-4 gap-3 text-center">
-        <button onclick="triggerScreenEmoji('👑')" class="text-3xl hover:scale-125 active:scale-95 transition-all p-2 rounded-xl bg-slate-800 hover:bg-slate-700 cursor-pointer shadow-lg">👑</button>
-        <button onclick="triggerScreenEmoji('🔥')" class="text-3xl hover:scale-125 active:scale-95 transition-all p-2 rounded-xl bg-slate-800 hover:bg-slate-700 cursor-pointer shadow-lg">🔥</button>
-        <button onclick="triggerScreenEmoji('😂')" class="text-3xl hover:scale-125 active:scale-95 transition-all p-2 rounded-xl bg-slate-800 hover:bg-slate-700 cursor-pointer shadow-lg">😂</button>
-        <button onclick="triggerScreenEmoji('😎')" class="text-3xl hover:scale-125 active:scale-95 transition-all p-2 rounded-xl bg-slate-800 hover:bg-slate-700 cursor-pointer shadow-lg">😎</button>
-        <button onclick="triggerScreenEmoji('💥')" class="text-3xl hover:scale-125 active:scale-95 transition-all p-2 rounded-xl bg-slate-800 hover:bg-slate-700 cursor-pointer shadow-lg">💥</button>
-        <button onclick="triggerScreenEmoji('🥳')" class="text-3xl hover:scale-125 active:scale-95 transition-all p-2 rounded-xl bg-slate-800 hover:bg-slate-700 cursor-pointer shadow-lg">🥳</button>
-        <button onclick="triggerScreenEmoji('😭')" class="text-3xl hover:scale-125 active:scale-95 transition-all p-2 rounded-xl bg-slate-800 hover:bg-slate-700 cursor-pointer shadow-lg">😭</button>
-        <button onclick="triggerScreenEmoji('😡')" class="text-3xl hover:scale-125 active:scale-95 transition-all p-2 rounded-xl bg-slate-800 hover:bg-slate-700 cursor-pointer shadow-lg">😡</button>
-        <button onclick="triggerScreenEmoji('🎲')" class="text-3xl hover:scale-125 active:scale-95 transition-all p-2 rounded-xl bg-slate-800 hover:bg-slate-700 cursor-pointer shadow-lg">🎲</button>
-        <button onclick="triggerScreenEmoji('👏')" class="text-3xl hover:scale-125 active:scale-95 transition-all p-2 rounded-xl bg-slate-800 hover:bg-slate-700 cursor-pointer shadow-lg">👏</button>
-        <button onclick="triggerScreenEmoji('❤️')" class="text-3xl hover:scale-125 active:scale-95 transition-all p-2 rounded-xl bg-slate-800 hover:bg-slate-700 cursor-pointer shadow-lg">❤️</button>
-        <button onclick="triggerScreenEmoji('🎉')" class="text-3xl hover:scale-125 active:scale-95 transition-all p-2 rounded-xl bg-slate-800 hover:bg-slate-700 cursor-pointer shadow-lg">🎉</button>
+      <div class="grid grid-cols-6 gap-1.5 text-center">
+        <button onclick="triggerScreenEmoji('👑')" class="text-2xl hover:scale-125 transition-all p-1 cursor-pointer">👑</button>
+        <button onclick="triggerScreenEmoji('🔥')" class="text-2xl hover:scale-125 transition-all p-1 cursor-pointer">🔥</button>
+        <button onclick="triggerScreenEmoji('😂')" class="text-2xl hover:scale-125 transition-all p-1 cursor-pointer">😂</button>
+        <button onclick="triggerScreenEmoji('😎')" class="text-2xl hover:scale-125 transition-all p-1 cursor-pointer">😎</button>
+        <button onclick="triggerScreenEmoji('💥')" class="text-2xl hover:scale-125 transition-all p-1 cursor-pointer">💥</button>
+        <button onclick="triggerScreenEmoji('🥳')" class="text-2xl hover:scale-125 transition-all p-1 cursor-pointer">🥳</button>
+        <button onclick="triggerScreenEmoji('😭')" class="text-2xl hover:scale-125 transition-all p-1 cursor-pointer">😭</button>
+        <button onclick="triggerScreenEmoji('😡')" class="text-2xl hover:scale-125 transition-all p-1 cursor-pointer">😡</button>
+        <button onclick="triggerScreenEmoji('🎲')" class="text-2xl hover:scale-125 transition-all p-1 cursor-pointer">🎲</button>
+        <button onclick="triggerScreenEmoji('👏')" class="text-2xl hover:scale-125 transition-all p-1 cursor-pointer">👏</button>
+        <button onclick="triggerScreenEmoji('❤️')" class="text-2xl hover:scale-125 transition-all p-1 cursor-pointer">❤️</button>
+        <button onclick="triggerScreenEmoji('🎉')" class="text-2xl hover:scale-125 transition-all p-1 cursor-pointer">🎉</button>
+      </div>
+    </div>
+
+    <!-- Quick Chips -->
+    <div class="p-2 border-b border-slate-800/80 bg-slate-950/40 flex flex-wrap gap-1.5" id="quickChipsBox">
+      <!-- Chips dynamically added -->
+    </div>
+
+    <!-- Chat Messages Feed -->
+    <div id="chatMessagesBox" class="flex-1 overflow-y-auto p-3 space-y-2 text-xs"></div>
+
+    <!-- Chat Input Box -->
+    <div class="p-3 border-t border-slate-800 bg-slate-950/80">
+      <div class="flex items-center gap-2">
+        <input id="inputChatMsg" type="text" placeholder="संदेश लिखें..." class="flex-1 bg-slate-900 border border-slate-700 text-white rounded-xl px-3 py-2 text-xs focus:border-amber-400 outline-none" />
+        <button id="btnSendChatText" onclick="sendCustomChat()" class="px-3.5 py-2 bg-amber-500 hover:bg-amber-400 text-slate-950 rounded-xl font-black text-xs flex items-center justify-center cursor-pointer">भेजें</button>
       </div>
     </div>
   </div>
 
+  <!-- Full-screen Floating Emojis Overlay -->
   <div id="floatingEmojiContainer" class="fixed inset-0 pointer-events-none z-50 overflow-hidden"></div>
 
+  <!-- Close Confirmation Modal -->
   <div id="modalCloseConfirm" class="hidden fixed inset-0 bg-slate-950/80 backdrop-blur-sm z-50 flex items-center justify-center p-4">
     <div class="bg-slate-900 border-2 border-red-500/50 rounded-3xl p-6 max-w-sm w-full text-center shadow-2xl">
       <div class="w-12 h-12 rounded-2xl bg-red-500/20 text-red-400 flex items-center justify-center mx-auto mb-3 text-2xl">⚠️</div>
@@ -351,19 +402,23 @@
     </div>
   </div>
 
+  <!-- Victory Modal (Dynamically themed with Winner's exact color) -->
   <div id="modalVictory" class="hidden fixed inset-0 bg-slate-950/85 backdrop-blur-md z-50 flex items-center justify-center p-4">
     <div id="modalVictoryCard" class="bg-slate-900 border-2 rounded-3xl p-6 sm:p-8 max-w-sm w-full text-center shadow-2xl relative">
       <div class="text-5xl sm:text-6xl mb-3 animate-bounce">🏆</div>
       <h3 id="lblVictoryTitle" class="text-xl sm:text-2xl font-black mb-1 drop-shadow">शानदार जीत! (Victory)</h3>
       <p id="lblWinnerCongrats" class="text-sm font-bold text-white mb-4">खिलाड़ी जीत गया!</p>
 
+      <!-- 4 Winning Gotis Showcase Podium with Exact Winner Color -->
       <div id="winnerPodiumBox" class="bg-slate-950/90 rounded-2xl p-4 mb-5 shadow-inner border">
         <div id="lblWinnerPodiumTitle" class="text-[11px] font-black uppercase tracking-wider mb-2.5 flex items-center justify-center gap-1.5">
           <span>👑</span>
           <span>होम पर पहुँची 4 विजेता गोटियाँ</span>
           <span>👑</span>
         </div>
-        <div id="winnerGotisContainer" class="flex items-center justify-center gap-3 py-2.5 rounded-xl border"></div>
+        <div id="winnerGotisContainer" class="flex items-center justify-center gap-3 py-2.5 rounded-xl border">
+          <!-- Populated by showVictory(winCol) -->
+        </div>
       </div>
 
       <button id="btnVictoryPlayAgain" onclick="executeFullExit()" class="w-full py-3 rounded-xl font-black text-sm shadow-lg active:scale-95 transition-all cursor-pointer">
@@ -372,7 +427,9 @@
     </div>
   </div>
 
+  <!-- JAVASCRIPT GAME ENGINE -->
   <script>
+    // --- Bulletproof Copy to Clipboard Function ---
     function copyToClipboard(text) {
       if (navigator.clipboard && window.isSecureContext) {
         return navigator.clipboard.writeText(text).catch(() => fallbackCopy(text));
@@ -402,6 +459,7 @@
       });
     }
 
+    // --- Audio Synthesizer ---
     let audioCtx = null;
     let soundMuted = false;
     function playAudio(type) {
@@ -440,102 +498,13 @@
         }
       } catch (e) {}
     }
-
-    function playEmojiSound(emoji) {
-      if (soundMuted) return;
-      try {
-        if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-        if (audioCtx.state === 'suspended') audioCtx.resume();
-        const now = audioCtx.currentTime;
-        
-        if (emoji === '👑') {
-          [523.25, 659.25, 783.99, 1046.50].forEach((freq, i) => {
-            const o = audioCtx.createOscillator(); const g = audioCtx.createGain();
-            o.type = 'triangle'; o.frequency.value = freq;
-            g.gain.setValueAtTime(0.15, now + i*0.1); g.gain.exponentialRampToValueAtTime(0.01, now + i*0.1 + 0.3);
-            o.connect(g); g.connect(audioCtx.destination);
-            o.start(now + i*0.1); o.stop(now + i*0.1 + 0.3);
-          });
-        } else if (emoji === '🔥') {
-          const o = audioCtx.createOscillator(); const g = audioCtx.createGain();
-          o.type = 'sawtooth'; o.frequency.setValueAtTime(800, now); o.frequency.exponentialRampToValueAtTime(100, now + 0.4);
-          g.gain.setValueAtTime(0.15, now); g.gain.exponentialRampToValueAtTime(0.01, now + 0.4);
-          o.connect(g); g.connect(audioCtx.destination); o.start(now); o.stop(now + 0.4);
-        } else if (emoji === '😂') {
-          const o = audioCtx.createOscillator(); const g = audioCtx.createGain();
-          o.type = 'sine'; o.frequency.setValueAtTime(600, now); 
-          o.frequency.linearRampToValueAtTime(800, now + 0.1);
-          o.frequency.linearRampToValueAtTime(600, now + 0.2);
-          o.frequency.linearRampToValueAtTime(800, now + 0.3);
-          g.gain.setValueAtTime(0.15, now); g.gain.linearRampToValueAtTime(0.01, now + 0.4);
-          o.connect(g); g.connect(audioCtx.destination); o.start(now); o.stop(now + 0.4);
-        } else if (emoji === '💥') {
-          const o = audioCtx.createOscillator(); const g = audioCtx.createGain();
-          o.type = 'square'; o.frequency.setValueAtTime(150, now); o.frequency.exponentialRampToValueAtTime(40, now + 0.3);
-          g.gain.setValueAtTime(0.2, now); g.gain.exponentialRampToValueAtTime(0.01, now + 0.3);
-          o.connect(g); g.connect(audioCtx.destination); o.start(now); o.stop(now + 0.3);
-        } else if (emoji === '❤️') {
-          const o = audioCtx.createOscillator(); const g = audioCtx.createGain();
-          o.type = 'sine'; o.frequency.value = 440;
-          g.gain.setValueAtTime(0, now); g.gain.linearRampToValueAtTime(0.15, now + 0.2); g.gain.linearRampToValueAtTime(0, now + 0.6);
-          o.connect(g); g.connect(audioCtx.destination); o.start(now); o.stop(now + 0.6);
-        } else if (emoji === '🎉') {
-          [880, 1100, 1320, 1560].forEach((freq, i) => {
-            const o = audioCtx.createOscillator(); const g = audioCtx.createGain();
-            o.type = 'triangle'; o.frequency.value = freq;
-            g.gain.setValueAtTime(0.1, now + i*0.08); g.gain.exponentialRampToValueAtTime(0.01, now + i*0.08 + 0.2);
-            o.connect(g); g.connect(audioCtx.destination);
-            o.start(now + i*0.08); o.stop(now + i*0.08 + 0.2);
-          });
-        } else if (emoji === '😡') {
-          const o = audioCtx.createOscillator(); const g = audioCtx.createGain();
-          o.type = 'sawtooth'; o.frequency.value = 120;
-          g.gain.setValueAtTime(0.15, now); g.gain.linearRampToValueAtTime(0.01, now + 0.5);
-          o.connect(g); g.connect(audioCtx.destination); o.start(now); o.stop(now + 0.5);
-        } else if (emoji === '😭') {
-          const o = audioCtx.createOscillator(); const g = audioCtx.createGain();
-          o.type = 'sine'; o.frequency.setValueAtTime(400, now); o.frequency.linearRampToValueAtTime(200, now + 0.6);
-          g.gain.setValueAtTime(0.15, now); g.gain.linearRampToValueAtTime(0.01, now + 0.6);
-          o.connect(g); g.connect(audioCtx.destination); o.start(now); o.stop(now + 0.6);
-        } else if (emoji === '👏') {
-          const o = audioCtx.createOscillator(); const g = audioCtx.createGain();
-          o.type = 'triangle'; o.frequency.value = 1200;
-          g.gain.setValueAtTime(0.15, now); g.gain.exponentialRampToValueAtTime(0.01, now + 0.1);
-          o.connect(g); g.connect(audioCtx.destination); o.start(now); o.stop(now + 0.1);
-          const o2 = audioCtx.createOscillator(); const g2 = audioCtx.createGain();
-          o2.type = 'triangle'; o2.frequency.value = 1200;
-          g2.gain.setValueAtTime(0.15, now + 0.15); g2.gain.exponentialRampToValueAtTime(0.01, now + 0.25);
-          o2.connect(g2); g2.connect(audioCtx.destination); o2.start(now + 0.15); o2.stop(now + 0.25);
-        } else if (emoji === '😎') {
-          const o = audioCtx.createOscillator(); const g = audioCtx.createGain();
-          o.type = 'sine'; o.frequency.setValueAtTime(300, now); o.frequency.exponentialRampToValueAtTime(600, now + 0.3);
-          g.gain.setValueAtTime(0.1, now); g.gain.linearRampToValueAtTime(0.01, now + 0.3);
-          o.connect(g); g.connect(audioCtx.destination); o.start(now); o.stop(now + 0.3);
-        } else if (emoji === '🎲') {
-          const o = audioCtx.createOscillator(); const g = audioCtx.createGain();
-          o.type = 'square'; o.frequency.value = 800;
-          g.gain.setValueAtTime(0.1, now); g.gain.exponentialRampToValueAtTime(0.01, now + 0.05);
-          o.connect(g); g.connect(audioCtx.destination); o.start(now); o.stop(now + 0.05);
-        } else if (emoji === '🥳') {
-          const o = audioCtx.createOscillator(); const g = audioCtx.createGain();
-          o.type = 'sawtooth'; o.frequency.setValueAtTime(400, now); o.frequency.linearRampToValueAtTime(600, now + 0.1); o.frequency.linearRampToValueAtTime(400, now + 0.2);
-          g.gain.setValueAtTime(0.15, now); g.gain.linearRampToValueAtTime(0.01, now + 0.3);
-          o.connect(g); g.connect(audioCtx.destination); o.start(now); o.stop(now + 0.3);
-        } else {
-          const o = audioCtx.createOscillator(); const g = audioCtx.createGain();
-          o.type = 'sine'; o.frequency.value = 500;
-          g.gain.setValueAtTime(0.1, now); g.gain.exponentialRampToValueAtTime(0.01, now + 0.1);
-          o.connect(g); g.connect(audioCtx.destination); o.start(now); o.stop(now + 0.1);
-        }
-      } catch (e) {}
-    }
-
     function toggleSound() {
       soundMuted = !soundMuted;
       document.getElementById('iconSoundOn').classList.toggle('hidden', soundMuted);
       document.getElementById('iconSoundOff').classList.toggle('hidden', !soundMuted);
     }
 
+    // --- Multi-Language Dictionary ---
     let currentLanguage = 'hi';
     const DICT = {
       hi: {
@@ -550,9 +519,9 @@
         placeholderName: 'अपना नाम लिखें...', red: 'लाल', green: 'हरा', yellow: 'पीला', blue: 'नीला', startPlay: 'लूडो खेल शुरू करें (Play Game)',
         resumeTitle: 'खेल बैकग्राउंड में चालू है!', resumeBtn: 'गेम पर वापस जाएं', dashMinimize: 'मिनिमाइज', dashClose: 'बंद करें', dashRoom: 'कमरा:',
         dashGameStart: 'गेम स्टार्ट', dashChat: 'चैट', dashTurnTitle: 'वर्तमान चाल:', emptySlot: 'खाली', turnBadge: 'चाल',
-        chatTitle: 'इमोजी रिएक्शन (Emoji Reactions)', chatPrompt: 'इमोजी दबाएं (पूरे स्क्रीन पर धमाकेदार एनिमेशन + साउंड):',
+        chatTitle: 'चैट और एनिमेटेड इमोजी', chatPrompt: 'इमोजी दबाएं (फुल स्क्रीन एनिमेशन):', sendText: 'भेजें',
         closeTitle: 'क्या आप खेल से बाहर निकलना चाहते हैं?', closeDesc: 'बाहर निकलने पर गेम बंद हो जाएगा।',
-        closeCancel: 'नहीं, खेल जारी रखें', closeProceed: 'हाँ, बाहर निकलें',
+        closeCancel: 'नहीं, खेल जारी रखें', closeProceed: 'हाँ, बाहर निकलें', quickChips: ['वेल प्लेड भाई! 👏', 'जल्दी चलो! ⏳', 'अरे बच गया! 😅', 'आज मैं ही जीतूँगा! 👑'],
         noMoves: 'कोई चाल संभव नहीं', bonusSix: '🎉 6 आया! बोनस चाल!', bonusCut: '💥 गोटी काटी! बोनस चाल!'
       },
       en: {
@@ -566,9 +535,9 @@
         stepProfile: '3. Your Name & Color', defaultName: 'Player 1', placeholderName: 'Enter your name...', red: 'Red', green: 'Green',
         yellow: 'Yellow', blue: 'Blue', startPlay: 'Start Ludo Game', resumeTitle: 'Game is running in background!', resumeBtn: 'Resume Game',
         dashMinimize: 'Minimize', dashClose: 'Close', dashRoom: 'Room:', dashGameStart: 'Game Start', dashChat: 'Chat', dashTurnTitle: 'Active Turn:',
-        emptySlot: 'Empty', turnBadge: 'TURN', chatTitle: 'Emoji Reactions', chatPrompt: 'Tap Emoji (Full-Screen Animation + Sound):',
+        emptySlot: 'Empty', turnBadge: 'TURN', chatTitle: 'Chat & Animated Emojis', chatPrompt: 'Tap Emoji (Full-Screen Animation):', sendText: 'Send',
         closeTitle: 'Do you want to exit the game?', closeDesc: 'Exiting will close the current game.',
-        closeCancel: 'Stay in Game', closeProceed: 'Yes, Exit Game',
+        closeCancel: 'Stay in Game', closeProceed: 'Yes, Exit Game', quickChips: ['Well played! 👏', 'Roll fast! ⏳', 'Lucky escape! 😅', 'I am going to win! 👑'],
         noMoves: 'No valid moves', bonusSix: '🎉 Rolled 6! Bonus turn!', bonusCut: '💥 Captured token! Bonus turn!'
       },
       bn: {
@@ -582,9 +551,9 @@
         defaultName: 'খেলোয়াড় ১', placeholderName: 'আপনার নাম লিখুন...', red: 'লাল', green: 'সবুজ', yellow: 'হলুদ', blue: 'নীল',
         startPlay: 'খেলা শুরু করুন', resumeTitle: 'লুডো ব্যাকগ্রাউন্ডে চলছে!', resumeBtn: 'গেমে ফিরে যান', dashMinimize: 'মিনিমাইজ',
         dashClose: 'বন্ধ করুন', dashRoom: 'রুম:', dashGameStart: 'গেম স্টার্ট', dashChat: 'চ্যাট', dashTurnTitle: 'বর্তমান চাল:', emptySlot: 'ফাঁকা',
-        turnBadge: 'চাল', chatTitle: 'ইমোজি রিঅ্যাকশন', chatPrompt: 'ইমোজি চাপুন (ফুল স্ক্রিন অ্যানিমেশন + সাউন্ড):',
+        turnBadge: 'চাল', chatTitle: 'চ্যাট ও অ্যানিমেটেড ইমোজি', chatPrompt: 'ইমোজি চাপুন (ফুল স্ক্রিন অ্যানিমেশন):', sendText: 'পাঠান',
         closeTitle: 'আপনি কি খেলা থেকে বের হতে চান?', closeDesc: 'বের হলে গেমটি বন্ধ হয়ে যাবে।', closeCancel: 'খেলা চালিয়ে যান',
-        closeProceed: 'হ্যাঁ, বের হন',
+        closeProceed: 'হ্যাঁ, বের হন', quickChips: ['দারুণ খেললেন! 👏', 'তাড়াতাড়ি চালুন! ⏳', 'বেঁচে গেলাম! 😅', 'আজ আমিই জিতব! 👑'],
         noMoves: 'কোনো চাল সম্ভব নয়', bonusSix: '🎉 ৬ এসেছে! বোনাস চাল!', bonusCut: '💥 গুঁটি কাটা হয়েছে! বোনাস চাল!'
       }
     };
@@ -622,13 +591,25 @@
       document.getElementById('lblDashTurn').textContent = d.dashTurnTitle;
       document.getElementById('lblChatTitle').textContent = d.chatTitle;
       document.getElementById('lblChatEmojisPrompt').textContent = d.chatPrompt;
+      document.getElementById('btnSendChatText').textContent = d.sendText;
       document.getElementById('lblCloseConfirmTitle').textContent = d.closeTitle;
       document.getElementById('lblCloseConfirmDesc').textContent = d.closeDesc;
       document.getElementById('btnCloseCancel').textContent = d.closeCancel;
       document.getElementById('btnCloseProceed').textContent = d.closeProceed;
+
+      const chipsBox = document.getElementById('quickChipsBox');
+      chipsBox.innerHTML = '';
+      d.quickChips.forEach(chip => {
+        const b = document.createElement('button');
+        b.className = 'px-2 py-1 bg-slate-800 hover:bg-slate-700 text-amber-300 font-bold rounded-lg text-[10px] cursor-pointer shadow-sm';
+        b.textContent = chip;
+        b.onclick = () => sendChatMessage(chip);
+        chipsBox.appendChild(b);
+      });
       updateTurnUI();
     }
 
+    // --- State Variables ---
     const RTDB_BASE = 'https://shanu-90f4c-default-rtdb.firebaseio.com';
     let selectedMode = 'bot';
     let onlineTab = 'create';
@@ -661,6 +642,7 @@
     const COLOR_HEX = { red: '#dc2626', green: '#16a34a', yellow: '#eab308', blue: '#2563eb' };
     const COLOR_ACCENT = { red: '#f87171', green: '#4ade80', yellow: '#fde047', blue: '#60a5fa' };
 
+    // 52 Common Perimeter Track Steps (Full Correct Track Line)
     const GLOBAL_TRACK = [
       { r: 6, c: 1 }, { r: 6, c: 2 }, { r: 6, c: 3 }, { r: 6, c: 4 }, { r: 6, c: 5 },
       { r: 5, c: 6 }, { r: 4, c: 6 }, { r: 3, c: 6 }, { r: 2, c: 6 }, { r: 1, c: 6 }, { r: 0, c: 6 }, { r: 0, c: 7 },
@@ -682,6 +664,7 @@
       blue: [{ r: 13, c: 7 }, { r: 12, c: 7 }, { r: 11, c: 7 }, { r: 10, c: 7 }, { r: 9, c: 7 }]
     };
 
+    // Mode & Setup Handlers
     function selectGameMode(m) {
       playAudio('click');
       selectedMode = m;
@@ -800,6 +783,7 @@
       document.getElementById('viewHome').classList.remove('hidden');
     }
 
+    // --- Firebase Sync Helpers ---
     function pushFirebaseState(data) {
       if (selectedMode !== 'online' || !currentRoomToken) return;
       data.lastUpdated = Date.now();
@@ -884,11 +868,19 @@
 
       if (data.winnerColor && data.gameStatus === 'ended') showVictory(data.winnerColor);
 
-      // ✅ FIXED: Only trigger if timestamp is STRICTLY greater than last seen
-      // And pass isFromSync=true so it doesn't re-upload to Firebase
+      if (data.recentChat && data.recentChat.id && data.recentChat.id !== lastChatMsgId) {
+        lastChatMsgId = data.recentChat.id;
+        appendChatFeed(data.recentChat.sender, data.recentChat.text, data.recentChat.color, data.recentChat.timestamp);
+        const drawer = document.getElementById('chatDrawer');
+        if (drawer && drawer.classList.contains('hidden')) {
+          const dot = document.getElementById('chatUnreadDot');
+          if (dot) dot.classList.remove('hidden');
+        }
+      }
+
       if (data.recentReaction && data.recentReaction.timestamp && data.recentReaction.timestamp > lastReactionTimestamp) {
         lastReactionTimestamp = data.recentReaction.timestamp;
-        triggerScreenEmoji(data.recentReaction.emoji, data.recentReaction.sender, true);
+        triggerFloatingEmoji(data.recentReaction.emoji, data.recentReaction.sender);
       }
     }
 
@@ -958,9 +950,6 @@
                 if (data.tokens) tokens = data.tokens;
                 if (data.currentTurn) currentTurn = data.currentTurn;
                 if (data.gameStatus) onlineGameStatus = data.gameStatus;
-                if (data.recentReaction && data.recentReaction.timestamp) {
-                  lastReactionTimestamp = data.recentReaction.timestamp;
-                }
 
                 const takenColors = data.players ? Object.keys(data.players) : [];
                 let assigned = activeColors.find(c => !takenColors.includes(c));
@@ -1019,6 +1008,7 @@
       activeColors.forEach(c => { for (let i = 0; i < 4; i++) tokens.push({ id: i, color: c, step: -1 }); });
     }
 
+    // Turn Timer (25s)
     function startTurnTimer() {
       if (turnTimerInterval) clearInterval(turnTimerInterval);
       turnSeconds = 25;
@@ -1055,6 +1045,7 @@
       setTimeout(() => b.classList.add('hidden'), 1700);
     }
 
+    // Board Generation
     function build15x15Board() {
       const container = document.getElementById('boardGrid15x15');
       let html = '';
@@ -1119,6 +1110,7 @@
       container.innerHTML = html;
     }
 
+    // 3D Goti with compact, sleek proportions for best fit and look
     function create3DGoti(tok, canMove, size = 'normal') {
       const col = tok.color;
       const hex = COLOR_HEX[col];
@@ -1243,6 +1235,7 @@
       return tok.step + dice <= 56;
     }
 
+    // Step 56: Exact placement inside each color triangle
     const HOME_FINAL_SLOTS = {
       red: [{ r: 7.2, c: 6.3 }, { r: 7.8, c: 6.3 }, { r: 7.1, c: 6.7 }, { r: 7.9, c: 6.7 }],
       green: [{ r: 6.3, c: 7.2 }, { r: 6.3, c: 7.8 }, { r: 6.7, c: 7.1 }, { r: 6.7, c: 7.9 }],
@@ -1301,6 +1294,7 @@
       });
     }
 
+    // --- Dice & Move Handling ---
     function handleRollClick() {
       if (isRolling || hasRolled) return;
       if (onlineGameStatus !== 'playing') return;
@@ -1371,6 +1365,7 @@
       if (selectedMode === 'bot' && currentTurn !== myColor) return;
       if (selectedMode === 'online' && currentTurn !== myColor) return;
 
+      // On roll 6: Token only exits yard to starting point (step 0)
       if (tok.step === -1) {
         if (diceValue !== 6) return;
         tok.step = 0;
@@ -1485,6 +1480,7 @@
       }
     }
 
+    // --- Smart Bot AI ---
     function scheduleBotTurn() {
       if (botThinkingTimer) clearTimeout(botThinkingTimer);
       botThinkingTimer = setTimeout(() => {
@@ -1501,6 +1497,7 @@
         return;
       }
 
+      // Priority 1: Cut opponent
       let chosen = movables.find(t => {
         if (t.step === -1) return false;
         const nextStep = t.step + diceValue;
@@ -1513,8 +1510,13 @@
         return false;
       });
 
+      // Priority 2: Enter home
       if (!chosen) chosen = movables.find(t => t.step + diceValue === 56);
+
+      // Priority 3: Bring out on 6
       if (!chosen && diceValue === 6) chosen = movables.find(t => t.step === -1);
+
+      // Priority 4: Advance closest to home
       if (!chosen) {
         const onTrack = movables.filter(t => t.step >= 0);
         if (onTrack.length > 0) {
@@ -1522,6 +1524,7 @@
           chosen = onTrack[0];
         }
       }
+
       if (!chosen) chosen = movables[0];
 
       if (chosen.step === -1) {
@@ -1544,6 +1547,7 @@
       animateBotStep();
     }
 
+    // Dynamic Victory Display with Winner's Exact Color
     function showVictory(winCol) {
       playAudio('win');
       onlineGameStatus = 'ended';
@@ -1572,6 +1576,7 @@
       if (podiumBox) podiumBox.style.borderColor = `${winHex}55`;
       if (podiumTitle) podiumTitle.style.color = winAccent;
 
+      // 4 Winner Gotis on Podium in Winner Color
       const cont = document.getElementById('winnerGotisContainer');
       if (cont) {
         cont.innerHTML = '';
@@ -1608,90 +1613,79 @@
       modalEl.classList.remove('hidden');
     }
 
-    // --- ✅ FIXED EMOJI FUNCTIONS (No more infinite loop) ---
-    function toggleEmojiPanel() {
+    // --- Live Chat & Reactions ---
+    function toggleChatDrawer() {
       playAudio('click');
       const d = document.getElementById('chatDrawer');
       d.classList.toggle('hidden');
+      if (!d.classList.contains('hidden')) {
+        document.getElementById('chatUnreadDot').classList.add('hidden');
+      }
     }
 
-    /**
-     * FIXED: Added isFromSync parameter.
-     * - When user clicks emoji locally: isFromSync = false → upload to Firebase + update lastReactionTimestamp
-     * - When sync receives emoji from Firebase: isFromSync = true → just show animation, NO Firebase upload
-     * This breaks the infinite loop that was causing repeat.
-     */
-    function triggerScreenEmoji(emoji, senderName, isFromSync = false) {
-      // Only play sound on user's own click (not on sync echo)
-      if (!isFromSync) {
-        playAudio('click');
-        playEmojiSound(emoji);
-      }
-      
-      // Auto-close emoji panel for clear board view
-      document.getElementById('chatDrawer').classList.add('hidden');
-
-      const actualSender = senderName || myName;
-      
-      // ✅ FIX: Only upload to Firebase if this is a LOCAL click (not from sync)
-      // And update lastReactionTimestamp immediately so echo doesn't re-trigger
-      if (selectedMode === 'online' && currentRoomToken && !isFromSync) {
-        const ts = Date.now();
-        lastReactionTimestamp = ts; // Prevent echo from re-triggering
+    function triggerScreenEmoji(emoji) {
+      playAudio('click');
+      triggerFloatingEmoji(emoji, myName);
+      if (selectedMode === 'online' && currentRoomToken) {
         fetch(RTDB_BASE + '/rooms/' + encodeURIComponent(currentRoomToken) + '/recentReaction.json', {
-          method: 'PUT', 
-          headers: { 'Content-Type': 'application/json' }, 
-          body: JSON.stringify({ emoji: emoji, sender: actualSender, timestamp: ts })
+          method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ emoji: emoji, sender: myName, timestamp: Date.now() })
         }).catch(() => {});
       }
-      
+    }
+
+    function triggerFloatingEmoji(emoji, sender) {
       const cont = document.getElementById('floatingEmojiContainer');
       if (!cont) return;
-      
-      // Clear any existing animations to prevent stacking
-      cont.innerHTML = ''; 
+      const el = document.createElement('div');
+      el.className = 'absolute bottom-16 floating-emoji flex flex-col items-center';
+      el.style.left = Math.floor(15 + Math.random() * 70) + '%';
+      el.innerHTML = `<span class="text-4xl sm:text-5xl filter drop-shadow-xl select-none">${emoji}</span><span class="text-[10px] font-black text-amber-300 bg-slate-950/80 px-2 py-0.5 rounded-full mt-1 border border-amber-500/40 shadow-md">${sender}</span>`;
+      cont.appendChild(el);
+      setTimeout(() => { if (el.parentNode === cont) cont.removeChild(el); }, 3200);
+    }
 
-      const wrapper = document.createElement('div');
-      wrapper.className = 'fixed inset-0 pointer-events-none z-50 flex items-center justify-center';
-      
-      const ring = document.createElement('div');
-      ring.className = 'absolute w-32 h-32 rounded-full border-4 border-amber-400/60';
-      ring.style.animation = 'pulseRing 1.2s ease-out forwards';
-      
-      const bigEmoji = document.createElement('div');
-      bigEmoji.className = 'relative flex flex-col items-center justify-center';
-      bigEmoji.innerHTML = `
-        <span class="select-none drop-shadow-2xl" style="font-size: 8rem; filter: drop-shadow(0 0 25px rgba(255,255,255,0.6));">
-          ${emoji}
-        </span>
-        <span class="text-base font-black text-amber-300 bg-slate-950/90 px-5 py-2 rounded-full mt-4 border border-amber-500/50 shadow-xl backdrop-blur-md">
-          ${actualSender}
-        </span>
-      `;
-      
-      bigEmoji.animate([
-        { transform: 'scale(0) translateY(50px)', opacity: 0 },
-        { transform: 'scale(1.2) translateY(0)', opacity: 1, offset: 0.2 },
-        { transform: 'scale(1) translateY(-20px)', opacity: 1, offset: 0.5 },
-        { transform: 'scale(1.5) translateY(-50px)', opacity: 0, offset: 1 }
-      ], {
-        duration: 1800,
-        easing: 'cubic-bezier(0.34, 1.56, 0.64, 1)',
-        fill: 'forwards'
-      });
+    function sendChatMessage(text) {
+      playAudio('click');
+      const msg = { id: 'msg-' + Date.now() + '-' + Math.floor(Math.random() * 1000), sender: myName, text: text, color: myColor, timestamp: Date.now() };
+      lastChatMsgId = msg.id;
+      appendChatFeed(myName, text, myColor, msg.timestamp);
+      if (selectedMode === 'online' && currentRoomToken) {
+        fetch(RTDB_BASE + '/rooms/' + encodeURIComponent(currentRoomToken) + '/recentChat.json', {
+          method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(msg)
+        }).catch(() => {});
+      }
+    }
 
-      wrapper.appendChild(ring);
-      wrapper.appendChild(bigEmoji);
-      cont.appendChild(wrapper);
-      
-      setTimeout(() => { 
-        if (wrapper.parentNode === cont) cont.removeChild(wrapper); 
-      }, 2000);
+    function sendCustomChat() {
+      const inp = document.getElementById('inputChatMsg');
+      const val = inp.value.trim();
+      if (!val) return;
+      sendChatMessage(val);
+      inp.value = '';
+    }
+
+    function appendChatFeed(sender, text, color, timestamp) {
+      const box = document.getElementById('chatMessagesBox');
+      if (!box) return;
+      const timeStr = timestamp ? new Date(timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+      const colHex = (color && COLOR_HEX[color]) ? COLOR_HEX[color] : '#f59e0b';
+      const div = document.createElement('div');
+      div.className = 'flex flex-col gap-0.5';
+      div.innerHTML = `<div class="flex items-center gap-1.5"><span class="w-2 h-2 rounded-full inline-block" style="background-color: ${colHex};"></span><span class="text-[11px] font-black text-amber-300">${sender}</span><span class="text-[9px] text-slate-500">${timeStr}</span></div><div class="bg-slate-800/90 border border-slate-700 text-white rounded-xl px-3 py-1.5 text-xs font-medium w-fit max-w-[85%] break-words shadow-sm">${text}</div>`;
+      box.appendChild(div);
+      box.scrollTop = box.scrollHeight;
     }
 
     function showBrandInfo() {
       playAudio('click');
-      alert('👑 ABK shanu Official Ludo\nReal Player Online & Computer Game.\nAny Problem contact👉Owner: Shanu');
+      alert('👑 ABK shanu Official Ludo\nReal Player Online & Computer Game.\nOwner: shanu');
+    }
+
+    const chatInputEl = document.getElementById('inputChatMsg');
+    if (chatInputEl) {
+      chatInputEl.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') { e.preventDefault(); sendCustomChat(); }
+      });
     }
 
     document.getElementById('displayHomeToken').textContent = currentRoomToken;
